@@ -1,4 +1,60 @@
 "use strict";
+// NAVIGATION TOGGLER
+const toggleBtn = document.querySelector(".navbar-toggler");
+toggleBtn.addEventListener("click", function (_e) {
+  if (toggleBtn.getAttribute("aria-expanded") === "true") {
+    document.querySelector(".fa-bars").classList.add("d-none");
+    document.querySelector(".fa-xmark").classList.remove("d-none");
+  } else {
+    document.querySelector(".fa-bars").classList.remove("d-none");
+    document.querySelector(".fa-xmark").classList.add("d-none");
+  }
+});
+// NAVIGATION TOGGLER
+// ENABLING TOOLTIPS
+setTimeout(() => {
+  const tooltipTriggerList = document.querySelectorAll(
+    '[data-bs-toggle="tooltip"]'
+  );
+  const tooltipList = [...tooltipTriggerList].map(
+    (tooltipTriggerEl) => new bootstrap.Tooltip(tooltipTriggerEl)
+  );
+}, 12000);
+// ENABLING TOOLTIPS
+// NAVIGATION COLOR
+const header = document.querySelector(".header");
+const navbar = document.querySelector(".navbar");
+// Define the callback function
+function callback(entries) {
+  // Loop through the entries
+  entries.forEach((entry) => {
+    // Check if the header is fully visible
+    if (entry.isIntersecting /*&& entry.intersectionRatio === 1*/) {
+      // Do something to the navbar when the header is fully visible
+      navbar.style.backgroundColor = "rgba(255, 255, 255, 0.2)";
+
+      navbar.style.backdropFilter = "blur(5px)";
+    } else {
+      // Do something else to the navbar when the header is not fully visible
+      navbar.style.backgroundColor = "rgba(0, 0, 0, 0.8)";
+      navbar.style.backdropFilter = "blur(5px)";
+    }
+  });
+}
+
+// Create the observer object
+const observer = new IntersectionObserver(callback, {
+  // Use the viewport as the root element
+  root: null,
+  // Set the root margin to zero
+  rootMargin: "0px",
+  // Set the threshold to 0.8 (80%)
+  threshold: 0.8,
+});
+
+// Start observing the header element
+observer.observe(header);
+// NAVIGATION COLOR
 
 // SETTING UP VARIABLES
 const setDays = 30;
@@ -7,59 +63,58 @@ let receivedData;
 let arr = [];
 const container = document.getElementById("content");
 daysAgo = new Date(Date.now() - setDays * 24 * 60 * 60 * 1000);
-
-// INSERT HERE
-const html = `
-<h1>Gamerpower Giveaways</h1>
-<p>
-  This site uses the official Gamerpower API to show you the giveaways
-  posted from past ${setDays} days.
-</p>
-`;
-container.insertAdjacentHTML("afterbegin", html);
-
 const url =
-  "https://corsproxy.io/?" +
+  "https://corsproxy.org/?" +
   encodeURIComponent("https://www.gamerpower.com/api/giveaways");
+// SETTING UP VARIABLES
 
-// FETCHING DATA FROM URL
-fetch(url)
-  .then((res) => res.json()) // PARSING DATA AS JSON
-  .then((data) => {
-    receivedData = data;
-    renderGames(receivedData);
-    renderTimer();
-  })
-  .catch((err) => {
-    // IF ERROR RECEIVING DATA
-    console.error(err);
-  });
-
+// FUNCTIONS
+// RENDER ERROR
+const renderError = function (error) {
+  container.innerHTML = "";
+  const html = `
+  <div class="col">
+    <p class="fw-bold fs-3 text-light text-center">
+      ${error}
+    </p>
+  </div>
+  `;
+  container.insertAdjacentHTML("beforeend", html);
+};
+// RENDER ERROR
 // RENDER THE GAMES
 const renderGames = function (receivedData) {
+  container.innerHTML = "";
   receivedData.forEach((game) => {
     if (new Date(game.published_date) >= daysAgo) {
       // CREATING HTML TO INSERT INTO CONTAINER
       const html = `
-        <div class="col-lg-3 col-md-4 col-sm-6 p-2" data-id="${game.id}">
-          <div class="item p-2">
-            <img src="${game.thumbnail}" alt="Thumbnail of the game" class="mb-3" />
-            <h4>${game.title}</h4>
-            <div class="tags">
-              <p class="bg-5 timer" id="${game.id}">${game.status}</p> 
-              <p class="bg-1">💻 ${game.platforms}</p>
-              <p class="bg-2">🆓 ${game.type}</p>
-              <p class="bg-3">💰 ${game.worth}</p>
-              <p class="bg-4">👤 ${game.users}</p>                    
-            </div>
-            <p>
-              ${game.description}
-            </p>
-            <div class="links">
-              <a href="${game.open_giveaway_url}" class="btn btn-primary">Get now</a>
-              <a href="${game.gamerpower_url}" class="btn btn-outline-primary">Gamerpower</a>
-          </div>
-      </div>
+      <div class="col-lg-4 col-md-6" data-id="${game.id}">
+      <article class="item p-3 text-bg-dark d-flex flex-column rounded-4 h-100">
+        <img
+          src="${game.thumbnail}"
+          alt="Thumbnail of the game"
+          class="w-100 rounded-4 mb-3"
+        />
+        <h3 class="game-title fs-4" data-bs-toggle="tooltip" data-bs-html="true" data-bs-title="<em>${game.title}</em>">${game.title}</h3>
+        <p class="tags mb-3 small text-uppercase">
+          <span class="bg-5 small timer py-1 px-1 fw-bolder rounded-1 d-inline-block mb-1" id="${game.id}">${game.status}</span>
+          <span class="bg-1 small py-1 px-1 fw-bolder rounded-1 d-inline-block mb-1">💻 ${game.platforms}</span>
+          <span class="bg-2 small py-1 px-1 fw-bolder rounded-1 d-inline-block mb-1">🆓 ${game.type}</span>
+          <span class="bg-3 small py-1 px-1 fw-bolder rounded-1 d-inline-block mb-1">💰 ${game.worth}</span>
+          <span class="bg-4 small py-1 px-1 fw-bolder rounded-1 d-inline-block mb-1">👤 ${game.users}</span>
+        </p>
+        <p class="game-description mb-5" data-bs-toggle="tooltip" data-bs-html="true" data-bs-title="<em>${game.description}</em>">${game.description}</p>
+        <div class="mt-auto">
+          <a href="${game.open_giveaway_url}" class="btn btn-warning"
+            >Get now <i class="fa-solid fa-arrow-right"></i
+          ></a>
+          <a href="${game.gamerpower_url}" class="btn btn-danger"
+            >Gamerpower</a
+          >
+        </div>
+      </article>
+    </div>
         `;
       container.insertAdjacentHTML("beforeend", html);
       if (game.end_date != "N/A" && new Date(game.end_date) > Date.now()) {
@@ -68,7 +123,7 @@ const renderGames = function (receivedData) {
     }
   });
 };
-
+// RENDER THE GAMES
 // RENDER THE TIMER IF APPLICABLE
 const renderTimer = function () {
   arr.forEach(function (el) {
@@ -104,3 +159,42 @@ const renderTimer = function () {
     }, 1000);
   });
 };
+// RENDER THE TIMER IF APPLICABLE
+// FUNCTIONS
+
+// ASYNC
+const getData = async function () {
+  try {
+    const res = await fetch(url);
+    // console.log(res);
+    if (!res.ok)
+      // if (!res.ok)
+      throw new Error(
+        "There was some problem getting the data from the servers. Please try again later. :("
+      );
+    const data = await res.json();
+    // console.log(data);
+    receivedData = data;
+    renderGames(receivedData);
+    renderTimer();
+  } catch (error) {
+    renderError(error);
+  }
+};
+setTimeout(() => {
+  getData();
+}, 8000);
+// ASYNC
+
+// FETCHING DATA FROM URL
+// fetch(url)
+//   .then((res) => res.json()) // PARSING DATA AS JSON
+//   .then((data) => {
+//     receivedData = data;
+//     renderGames(receivedData);
+//     renderTimer();
+//   })
+//   .catch((err) => {
+//     // IF ERROR RECEIVING DATA
+//     console.error(err);
+//   });
