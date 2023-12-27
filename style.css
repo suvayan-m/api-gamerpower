@@ -36,7 +36,7 @@ body {
   transition: transform 0.2s;
 }
 
-@media (hover: hover) {
+@media only screen and (hover: hover) {
   .collage:hover {
     transform: scale(1.1) rotate(-3deg);
   }
@@ -115,7 +115,7 @@ body {
   transition: transform 0.2s, box-shadow 0.2s;
 }
 
-@media (hover: hover) {
+@media only screen and (hover: hover) {
   .item:hover {
     transform: scale(1.1) translateY(-1rem) rotate(-3deg);
     box-shadow: 0px 3px 9px rgba(0, 0, 0, 0.2);
@@ -147,7 +147,7 @@ body {
   color: #fff5f5;
 }
 
-@media (hover: hover) {
+@media only screen and (hover: hover) {
   .game-title {
     overflow: hidden;
     display: -webkit-box;
