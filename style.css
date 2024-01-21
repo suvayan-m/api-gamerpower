@@ -29,14 +29,16 @@ body {
     ),
     url(img/hero.jpg);
   background-size: cover;
+  background-position: center;
   background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 
 .collage {
   transition: transform 0.2s;
 }
 
-@media only screen and (hover: hover) {
+@media only screen and (hover: hover) and (pointer: fine) {
   .collage:hover {
     transform: scale(1.1) rotate(-3deg);
   }
@@ -55,7 +57,9 @@ body {
     ),
     url(img/main-bg.jpg);
   background-size: cover;
+  background-position: center;
   background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 
 @keyframes scaleBox {
@@ -115,7 +119,7 @@ body {
   transition: transform 0.2s, box-shadow 0.2s;
 }
 
-@media only screen and (hover: hover) {
+@media only screen and (hover: hover) and (pointer: fine) {
   .item:hover {
     transform: scale(1.1) translateY(-1rem) rotate(-3deg);
     box-shadow: 0px 3px 9px rgba(0, 0, 0, 0.2);
@@ -147,7 +151,7 @@ body {
   color: #fff5f5;
 }
 
-@media only screen and (hover: hover) {
+@media only screen and (hover: hover) and (pointer: fine) {
   .game-title {
     overflow: hidden;
     display: -webkit-box;
@@ -160,5 +164,13 @@ body {
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
+  }
+}
+.custom-tooltip {
+  display: none;
+}
+@media only screen and (hover: hover) and (pointer: fine) {
+  .custom-tooltip {
+    display: block;
   }
 }

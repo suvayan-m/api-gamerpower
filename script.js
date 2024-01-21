@@ -13,12 +13,12 @@ toggleBtn.addEventListener("click", function (_e) {
 // NAVIGATION TOGGLER
 // ENABLING TOOLTIPS
 setTimeout(() => {
-  const tooltipTriggerList = document.querySelectorAll(
-    '[data-bs-toggle="tooltip"]'
-  );
-  const tooltipList = [...tooltipTriggerList].map(
-    (tooltipTriggerEl) => new bootstrap.Tooltip(tooltipTriggerEl)
-  );
+  // const tooltipTriggerList = document.querySelectorAll(
+  //   '[data-bs-toggle="tooltip"]'
+  // );
+  // const tooltipList = [...tooltipTriggerList].map(
+  //   (tooltipTriggerEl) => new bootstrap.Tooltip(tooltipTriggerEl)
+  // );
 }, 12000);
 // ENABLING TOOLTIPS
 // NAVIGATION COLOR
@@ -32,7 +32,6 @@ function callback(entries) {
     if (entry.isIntersecting /*&& entry.intersectionRatio === 1*/) {
       // Do something to the navbar when the header is fully visible
       navbar.style.backgroundColor = "rgba(255, 255, 255, 0.2)";
-
       navbar.style.backdropFilter = "blur(5px)";
     } else {
       // Do something else to the navbar when the header is not fully visible
@@ -90,31 +89,62 @@ const renderGames = function (receivedData) {
       // CREATING HTML TO INSERT INTO CONTAINER
       const html = `
       <div class="col-lg-4 col-md-6" data-id="${game.id}">
-      <article class="item p-3 text-bg-dark d-flex flex-column rounded-4 h-100">
-        <img
-          src="${game.thumbnail}"
-          alt="Thumbnail of the game"
-          class="w-100 rounded-4 mb-3"
-        />
-        <h3 class="game-title fs-4" data-bs-toggle="tooltip" data-bs-html="true" data-bs-title="<em>${game.title}</em>">${game.title}</h3>
-        <p class="tags mb-3 small text-uppercase">
-          <span class="bg-5 small timer py-1 px-1 fw-bolder rounded-1 d-inline-block mb-1" id="${game.id}">${game.status}</span>
-          <span class="bg-1 small py-1 px-1 fw-bolder rounded-1 d-inline-block mb-1">💻 ${game.platforms}</span>
-          <span class="bg-2 small py-1 px-1 fw-bolder rounded-1 d-inline-block mb-1">🆓 ${game.type}</span>
-          <span class="bg-3 small py-1 px-1 fw-bolder rounded-1 d-inline-block mb-1">💰 ${game.worth}</span>
-          <span class="bg-4 small py-1 px-1 fw-bolder rounded-1 d-inline-block mb-1">👤 ${game.users}</span>
-        </p>
-        <p class="game-description mb-5" data-bs-toggle="tooltip" data-bs-html="true" data-bs-title="<em>${game.description}</em>">${game.description}</p>
-        <div class="mt-auto">
-          <a href="${game.open_giveaway_url}" class="btn btn-warning"
-            >Get now <i class="fa-solid fa-arrow-right"></i
-          ></a>
-          <a href="${game.gamerpower_url}" class="btn btn-danger"
-            >Gamerpower</a
+        <article class="item p-3 text-bg-dark d-flex flex-column rounded-4 h-100">
+          <img
+            src="${game.thumbnail}"
+            alt="Thumbnail of the game"
+            class="w-100 rounded-4 mb-3"
+          />
+          <h3
+            class="game-title fs-4"
+            data-bs-custom-class="custom-tooltip"
+            data-bs-toggle="tooltip"
+            data-bs-html="true"
+            data-bs-title="<em>${game.title}</em>"
           >
-        </div>
-      </article>
-    </div>
+            ${game.title}
+          </h3>
+          <p class="tags mb-3 small text-uppercase">
+            <span
+              class="bg-5 small timer py-1 px-1 fw-bolder rounded-1 d-inline-block mb-1"
+              id="${game.id}"
+              >${game.status}</span
+            >
+            <span class="bg-1 small py-1 px-1 fw-bolder rounded-1 d-inline-block mb-1"
+              >💻 ${game.platforms}</span
+            >
+            <span class="bg-2 small py-1 px-1 fw-bolder rounded-1 d-inline-block mb-1"
+              >🆓 ${game.type}</span
+            >
+            <span class="bg-3 small py-1 px-1 fw-bolder rounded-1 d-inline-block mb-1"
+              >💰 ${game.worth}</span
+            >
+            <span class="bg-4 small py-1 px-1 fw-bolder rounded-1 d-inline-block mb-1"
+              >👤 ${game.users}</span
+            >
+          </p>
+          <p
+            class="game-description mb-5"
+            data-bs-custom-class="custom-tooltip"
+            data-bs-toggle="tooltip"
+            data-bs-html="true"
+            data-bs-title="<em>${game.description}</em>"
+          >
+            ${game.description}
+          </p>
+          <div class="mt-auto">
+            <a
+              href="${game.open_giveaway_url}"
+              target="_blank"
+              class="btn btn-warning"
+              >Get now <i class="fa-solid fa-arrow-right"></i
+            ></a>
+            <a href="${game.gamerpower_url}" target="_blank" class="btn btn-danger"
+              >Gamerpower</a
+            >
+          </div>
+        </article>
+      </div>
         `;
       container.insertAdjacentHTML("beforeend", html);
       if (game.end_date != "N/A" && new Date(game.end_date) > Date.now()) {
@@ -122,6 +152,12 @@ const renderGames = function (receivedData) {
       }
     }
   });
+  const tooltipTriggerList = document.querySelectorAll(
+    '[data-bs-toggle="tooltip"]'
+  );
+  const tooltipList = [...tooltipTriggerList].map(
+    (tooltipTriggerEl) => new bootstrap.Tooltip(tooltipTriggerEl)
+  );
 };
 // RENDER THE GAMES
 // RENDER THE TIMER IF APPLICABLE
@@ -181,9 +217,10 @@ const getData = async function () {
     renderError(error);
   }
 };
-setTimeout(() => {
-  getData();
-}, 8000);
+getData();
+// setTimeout(() => {
+//   getData();
+// }, 8000);
 // ASYNC
 
 // FETCHING DATA FROM URL
@@ -198,3 +235,25 @@ setTimeout(() => {
 //     // IF ERROR RECEIVING DATA
 //     console.error(err);
 //   });
+// $(document).ready(function () {
+//   console.log($(".navbar").outerHeight(true));
+//   $('a[href^="#"]').on("click", function (e) {
+//     e.preventDefault();
+
+//     var target = this.hash,
+//       $target = $(target);
+
+//     $("html, body")
+//       .stop()
+//       .animate(
+//         {
+//           scrollTop: $target.offset().top - $(".navbar").outerHeight(true),
+//         },
+//         900,
+//         "swing",
+//         function () {
+//           window.location.hash = target;
+//         }
+//       );
+//   });
+// });
