@@ -62,11 +62,11 @@ let receivedData;
 let arr = [];
 const container = document.getElementById("content");
 daysAgo = new Date(Date.now() - setDays * 24 * 60 * 60 * 1000);
-const url =
-  "https://corsproxy.org/?" +
-  encodeURIComponent("https://www.gamerpower.com/api/giveaways");
+// const url =
+ // "https://corsproxy.org/?" +
+// encodeURIComponent("https://www.gamerpower.com/api/giveaways");
 // SETTING UP VARIABLES
-
+const url = `https://crossorigin.me/https://www.gamerpower.com/api/giveaways`;
 // FUNCTIONS
 // RENDER ERROR
 const renderError = function (error) {
