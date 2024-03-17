@@ -63,10 +63,18 @@ let arr = [];
 const container = document.getElementById("content");
 daysAgo = new Date(Date.now() - setDays * 24 * 60 * 60 * 1000);
 // const url =
- // "https://corsproxy.org/?" +
+// "https://corsproxy.org/?" +
 // encodeURIComponent("https://www.gamerpower.com/api/giveaways");
 // SETTING UP VARIABLES
-const url = `https://crossorigin.me/https://www.gamerpower.com/api/giveaways`;
+// const url = `https://cors-proxy.htmldriven.com/?url=https://www.gamerpower.com/api/giveaways`;
+
+// const url = `https://api.allorigins.win/get?url=${encodeURIComponent(
+//   "https://www.gamerpower.com/api/giveaways"
+// )}`;
+const url = `https://api.allorigins.win/get?url=${encodeURIComponent(
+  "https://www.gamerpower.com/api/giveaways"
+)}`;
+// console.log(url);
 // FUNCTIONS
 // RENDER ERROR
 const renderError = function (error) {
@@ -197,27 +205,37 @@ const renderTimer = function () {
 };
 // RENDER THE TIMER IF APPLICABLE
 // FUNCTIONS
-
+// 200: Success
+// 201: No active giveaways available at the moment, please try again later.
+// 404: Object not found: Giveaway or endpoint not found.
+// 500: Something wrong on our end (unexpected server errors).
 // ASYNC
 const getData = async function () {
   try {
     const res = await fetch(url);
     // console.log(res);
-    if (!res.ok)
+    if (!res.ok) {
       // if (!res.ok)
       throw new Error(
         "There was some problem getting the data from the servers. Please try again later. :("
       );
+    }
     const data = await res.json();
-    // console.log(data);
-    receivedData = data;
+    // console.log(data.contents);
+    // receivedData = data;
+    receivedData = JSON.parse(data.contents);
+    // console.log(typeof receivedData);
     renderGames(receivedData);
     renderTimer();
   } catch (error) {
+    console.error(error);
     renderError(error);
   }
 };
+// document.querySelector(".get-data").addEventListener("click", function () {
 getData();
+// });
+// getData();
 // setTimeout(() => {
 //   getData();
 // }, 8000);
@@ -256,4 +274,16 @@ getData();
 //         }
 //       );
 //   });
+// });
+
+// window.addEventListener("scroll", function () {
+//   const offset = window.scrollY;
+//   document.querySelector(".header").style.backgroundPositionY =
+//     offset * 1 + "px";
+//   document.querySelector(".section-games").style.backgroundPositionY =
+//     offset * 1 + "px";
+// });
+// window.addEventListener("scroll", function () {
+//   const offset = window.scrollY;
+
 // });
