@@ -71,9 +71,10 @@ daysAgo = new Date(Date.now() - setDays * 24 * 60 * 60 * 1000);
 // const url = `https://api.allorigins.win/get?url=${encodeURIComponent(
 //   "https://www.gamerpower.com/api/giveaways"
 // )}`;
-const url = `https://api.allorigins.win/get?url=${encodeURIComponent(
-  "https://www.gamerpower.com/api/giveaways"
-)}`;
+// const url = `https://api.allorigins.win/get?url=${encodeURIComponent(
+//   "https://www.gamerpower.com/api/giveaways"
+// )}`;
+const url = `https://corsproxy.io/?url=https://www.gamerpower.com/api/giveaways`
 // console.log(url);
 // FUNCTIONS
 // RENDER ERROR
@@ -287,3 +288,4 @@ getData();
 //   const offset = window.scrollY;
 
 // });
+
