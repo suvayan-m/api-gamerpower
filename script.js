@@ -221,7 +221,12 @@ const proxyUrl = `https://my-cors-proxy.suvayanmondal57-cloudflare.workers.dev/$
 )}`;
 const getData = async function () {
   try {
-    const res = await fetch(proxyUrl);
+    const res = await fetch(proxyUrl, {
+      method: "GET",
+      headers: {
+        "x-api-key": API_KEY, // your private proxy key (the Cloudflare worker checks this)
+      },
+    });
     // console.log(res);
     if (!res.ok) {
       // if (!res.ok)
