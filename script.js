@@ -236,8 +236,8 @@ const getData = async function () {
     }
     const data = await res.json();
     // console.log(data.contents);
-    // receivedData = data;
-    receivedData = JSON.parse(data.contents);
+    receivedData = data;
+    // receivedData = JSON.parse(data.contents);
     // console.log(typeof receivedData);
     renderGames(receivedData);
     renderTimer();
