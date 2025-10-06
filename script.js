@@ -74,7 +74,7 @@ daysAgo = new Date(Date.now() - setDays * 24 * 60 * 60 * 1000);
 // const url = `https://api.allorigins.win/get?url=${encodeURIComponent(
 //   "https://www.gamerpower.com/api/giveaways"
 // )}`;
-const url = `https://corsproxy.io/?url=https://www.gamerpower.com/api/giveaways`
+const url = `https://corsproxy.io/?url=https://www.gamerpower.com/api/giveaways`;
 // console.log(url);
 // FUNCTIONS
 // RENDER ERROR
@@ -211,9 +211,17 @@ const renderTimer = function () {
 // 404: Object not found: Giveaway or endpoint not found.
 // 500: Something wrong on our end (unexpected server errors).
 // ASYNC
+const API_KEY =
+  "1e58f1d34d5607d490b8cbc33fa686421df79cd0d8c3327ccf046ab9925f567f"; // The one you set in Cloudflare
+const targetUrl = "https://www.gamerpower.com/api/giveaways";
+
+// Combine your proxy + target URL
+const proxyUrl = `https://my-cors-proxy.suvayanmondal57-cloudflare.workers.dev/${encodeURIComponent(
+  targetUrl
+)}`;
 const getData = async function () {
   try {
-    const res = await fetch(url);
+    const res = await fetch(proxyUrl);
     // console.log(res);
     if (!res.ok) {
       // if (!res.ok)
@@ -288,4 +296,3 @@ getData();
 //   const offset = window.scrollY;
 
 // });
-
